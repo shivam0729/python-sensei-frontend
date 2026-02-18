@@ -152,7 +152,7 @@ Please change the parent <Route path="${A}"> to <Route path="${A==="/"?"*":`${A}
           font-semibold text-white\r
           group-hover:text-indigo-400\r
           transition\r
-        `,children:u}),E.jsx("p",{className:"text-sm md:text-base text-slate-400 mt-1.5",children:d})]})]});return E.jsxs("div",{className:"space-y-6 md:space-y-8",children:[E.jsxs("div",{children:[E.jsx("h2",{className:"text-xl md:text-2xl lg:text-3xl font-bold text-white",children:"Welcome to Python Sensei"}),E.jsx("p",{className:"text-sm md:text-base text-slate-400 mt-2",children:"AI Resume Analyzer & Mock Interview Platform"})]}),E.jsxs("div",{className:`\r
+        `,children:u}),E.jsx("p",{className:"text-sm md:text-base text-slate-400 mt-1.5",children:d})]})]});return E.jsxs("div",{className:"space-y-6 md:space-y-8",children:[E.jsxs("div",{children:[E.jsx("h2",{className:"text-xl md:text-2xl lg:text-3xl font-bold text-white",children:"Welcome to Sensei"}),E.jsx("p",{className:"text-sm md:text-base text-slate-400 mt-2",children:"AI Resume Analyzer & Mock Interview Platform"})]}),E.jsxs("div",{className:`\r
         grid gap-4 md:gap-6\r
         grid-cols-1\r
         sm:grid-cols-2\r

@@ -1,4 +1,4 @@
-const API_BASE = "https://python-sensei-backend.onrender.com";
+const API_BASE = "python-sensei-backend-production.up.railway.app";
 
 /* ---------------- AUTH ---------------- */
 

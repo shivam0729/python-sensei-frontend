@@ -57,7 +57,7 @@ export default function Dashboard() {
       {/* Header */}
       <div>
         <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-white">
-          Welcome to Python Sensei
+          Welcome to Sensei
         </h2>
 
         <p className="text-sm md:text-base text-slate-400 mt-2">
