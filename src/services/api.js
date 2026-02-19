@@ -1,4 +1,6 @@
-const API_BASE = "python-sensei-backend-production.up.railway.app";
+const API_BASE =
+  import.meta.env.VITE_API_URL ||
+  "https://python-sensei-backend-production.up.railway.app";
 
 /* ---------------- AUTH ---------------- */
 
