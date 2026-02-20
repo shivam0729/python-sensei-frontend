@@ -1,5 +1,11 @@
 {
   "framework": "vite",
   "buildCommand": "npm ci && npm run build",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "source": "/((?!sw.js|manifest.webmanifest|workbox-.*|assets/).*)",
+      "destination": "/"
+    }
+  ]
 }
