@@ -4,17 +4,17 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 
-/* ✅ PWA Service Worker Register */
+/* ✅ Register PWA Service Worker (Production Safe) */
 import { registerSW } from "virtual:pwa-register";
 
-registerSW({
+const updateSW = registerSW({
   immediate: true,
   onOfflineReady() {
     console.log("✅ App ready to work offline");
   },
   onNeedRefresh() {
     console.log("🔄 New version available — refresh recommended");
-  }
+  },
 });
 
 const rootElement = document.getElementById("root");
