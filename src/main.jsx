@@ -4,10 +4,10 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 
-/* ✅ Register PWA Service Worker (Production Safe) */
+/* ✅ Register PWA Service Worker */
 import { registerSW } from "virtual:pwa-register";
 
-const updateSW = registerSW({
+registerSW({
   immediate: true,
   onOfflineReady() {
     console.log("✅ App ready to work offline");

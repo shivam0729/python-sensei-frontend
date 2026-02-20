@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar";
 import { Outlet } from "react-router-dom";
+import InstallPopup from "../components/InstallPopup";
 
 export default function Layout() {
   return (
@@ -24,6 +25,9 @@ export default function Layout() {
       >
         <Outlet />
       </main>
+
+      {/* Install Popup (Android Only) */}
+      <InstallPopup />
 
     </div>
   );
