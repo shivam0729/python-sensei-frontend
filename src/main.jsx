@@ -1,32 +1,26 @@
 import React from "react";
+
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+
 import App from "./App";
-import "./index.css";
 
-/* ✅ Register PWA Service Worker */
-import { registerSW } from "virtual:pwa-register";
+import {
+  AuthProvider,
+} from "./context/AuthContext";
 
-registerSW({
-  immediate: true,
-  onOfflineReady() {
-    console.log("✅ App ready to work offline");
-  },
-  onNeedRefresh() {
-    console.log("🔄 New version available — refresh recommended");
-  },
-});
+import "./styles/theme.css";
 
-const rootElement = document.getElementById("root");
+ReactDOM.createRoot(
+  document.getElementById("root")
+).render(
 
-if (!rootElement) {
-  throw new Error("Root element not found");
-}
-
-ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <BrowserRouter>
+
+    <AuthProvider>
+
       <App />
-    </BrowserRouter>
+
+    </AuthProvider>
+
   </React.StrictMode>
 );

@@ -1,66 +1,50 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Layout from "./layouts/Layout";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
 
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import Dashboard from "./pages/Dashboard";
-import Upload from "./pages/Upload";
-import Interview from "./pages/Interview";
-import Profile from "./pages/Profile";
+import LoginPage from "./pages/LoginPage";
 
-/* helper — check auth */
-function PublicOnly({ children }) {
-  const token = localStorage.getItem("token");
-  return token ? <Navigate to="/" replace /> : children;
-}
+import SignupPage from "./pages/SignupPage";
 
-function App() {
+import DashboardPage from "./pages/DashboardPage";
+
+import ProtectedRoute from "./routes/ProtectedRoute";
+
+
+export default function App() {
+
   return (
-    <Routes>
 
-      {/* ---------------- PUBLIC ROUTES ---------------- */}
+    <BrowserRouter>
 
-      <Route
-        path="/login"
-        element={
-          <PublicOnly>
-            <Login />
-          </PublicOnly>
-        }
-      />
+      <Routes>
 
-      <Route
-        path="/signup"
-        element={
-          <PublicOnly>
-            <Signup />
-          </PublicOnly>
-        }
-      />
+        <Route
+          path="/"
+          element={<LoginPage />}
+        />
 
-      {/* ---------------- PROTECTED ROUTES ---------------- */}
+        <Route
+          path="/signup"
+          element={<SignupPage />}
+        />
 
-      <Route
-        path="/"
-        element={
-          <ProtectedRoute>
-            <Layout />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<Dashboard />} />
-        <Route path="upload" element={<Upload />} />
-        <Route path="interview" element={<Interview />} />
-        <Route path="profile" element={<Profile />} />
-      </Route>
+        <Route
+          path="/dashboard"
+          element={
 
-      {/* ---------------- FALLBACK ---------------- */}
+            <ProtectedRoute>
 
-      <Route path="*" element={<Navigate to="/" replace />} />
+              <DashboardPage />
 
-    </Routes>
+            </ProtectedRoute>
+          }
+        />
+
+      </Routes>
+
+    </BrowserRouter>
   );
 }
-
-export default App;
