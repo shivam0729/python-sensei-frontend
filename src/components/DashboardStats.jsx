@@ -35,21 +35,21 @@ export default function DashboardStats({ stats: propStats }) {
 
   const cards = [
     {
-      title: "Resumes",
+      title: "Resumes Uploaded",
       value: stats.total_resumes,
       color: "var(--primary)",
       glow: "var(--primary-glow)",
       emoji: "📄"
     },
     {
-      title: "ATS Scans",
-      value: stats.total_ats_runs,
+      title: "Average ATS Score",
+      value: stats.average_ats_score !== undefined ? `${stats.average_ats_score}%` : "0%",
       color: "var(--accent)",
       glow: "var(--accent-glow)",
       emoji: "🎯"
     },
     {
-      title: "Mock Runs",
+      title: "Mock Interviews",
       value: stats.total_interviews,
       color: "var(--success)",
       glow: "rgba(16, 185, 129, 0.12)",

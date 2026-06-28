@@ -13,6 +13,7 @@ import ResumeResults from "../components/ResumeResults";
 import ATSOptimizer from "../components/ATSOptimizer";
 import InterviewPanel from "../components/InterviewPanel";
 import CoverLetterPanel from "../components/CoverLetterPanel";
+import ProfilePanel from "../components/ProfilePanel";
 import SectionHeader from "../components/SectionHeader";
 
 export default function DashboardPage() {
@@ -78,6 +79,7 @@ export default function DashboardPage() {
       case "Dashboard":
         const email = localStorage.getItem("user_email") || "";
         const username = email ? email.split("@")[0] : "Member";
+        const fullName = localStorage.getItem("user_name") || "";
 
         // Calculate Career Readiness score dynamically
         const resumeWeight = stats?.total_resumes > 0 ? 30 : 0;
@@ -152,19 +154,32 @@ export default function DashboardPage() {
         return (
           <div style={{ display: "flex", flexDirection: "column", gap: "25px" }} className="animate-fade-in">
             {/* Quick Greeting header block */}
-            <div className="dashboard-app-header">
-              <div>
-                <h1 className="dashboard-user-greeting">Welcome, {username}</h1>
-                <p className="dashboard-user-subgreeting">Here's your career preparation breakdown</p>
+            <div className="dashboard-app-header" style={{ display: "flex", alignItems: "center", gap: "15px" }}>
+              <div 
+                style={{ 
+                  width: "54px", 
+                  height: "54px", 
+                  borderRadius: "50%", 
+                  background: "linear-gradient(135deg, var(--primary), var(--accent))",
+                  color: "white",
+                  fontSize: "1.35rem",
+                  fontWeight: "800",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: "var(--shadow-sm)",
+                  overflow: "hidden"
+                }}
+              >
+                {localStorage.getItem("user_avatar") ? (
+                  <img src={`http://localhost:8000${localStorage.getItem("user_avatar")}`} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                ) : (
+                  (fullName || "U").substring(0, 2).toUpperCase()
+                )}
               </div>
-
-              <div className="dashboard-header-icons">
-                <button className="dashboard-icon-btn" aria-label="Notifications" title="Notifications">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                  </svg>
-                </button>
+              <div style={{ flex: 1 }}>
+                <h1 className="dashboard-user-greeting" style={{ margin: 0 }}>Welcome back, {fullName || username}! 👋</h1>
+                <p className="dashboard-user-subgreeting" style={{ margin: 0 }}>Here's your career preparation breakdown</p>
               </div>
             </div>
 
@@ -201,6 +216,62 @@ export default function DashboardPage() {
                   {readinessScore === 100 && "All steps completed!"}
                 </span>
               </div>
+            </div>
+
+            {/* Recent Activities list feed */}
+            <div className="card">
+              <h3 style={{ fontSize: "1.15rem", fontWeight: "800", marginBottom: "15px", fontFamily: "var(--font-display)", color: "var(--text-primary)" }}>
+                ⚡ Recent Workspace Activities
+              </h3>
+              {stats?.recent_activities && stats.recent_activities.length > 0 ? (
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  {stats.recent_activities.map((act, index) => (
+                    <div 
+                      key={index} 
+                      style={{ 
+                        display: "flex", 
+                        alignItems: "center", 
+                        gap: "12px", 
+                        padding: "10px 14px", 
+                        background: "var(--panel-bg)", 
+                        border: "1px solid var(--border-color)", 
+                        borderRadius: "12px" 
+                      }}
+                    >
+                      <div 
+                        style={{ 
+                          width: "32px", 
+                          height: "32px", 
+                          borderRadius: "8px", 
+                          background: act.type === "resume_upload" ? "rgba(37, 99, 235, 0.1)" : act.type === "ats_optimize" ? "rgba(124, 58, 237, 0.1)" : "rgba(16, 185, 129, 0.1)",
+                          color: act.type === "resume_upload" ? "var(--primary)" : act.type === "ats_optimize" ? "var(--accent)" : "var(--success)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: "1rem",
+                          fontWeight: "bold"
+                        }}
+                      >
+                        {act.type === "resume_upload" && "📄"}
+                        {act.type === "ats_optimize" && "🎯"}
+                        {act.type === "cover_letter" && "✉️"}
+                        {act.type === "mock_interview" && "🎤"}
+                      </div>
+                      <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+                        <span style={{ fontSize: "0.85rem", fontWeight: "700", color: "var(--text-primary)" }}>{act.title}</span>
+                        <span style={{ fontSize: "0.76rem", color: "var(--text-secondary)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{act.description}</span>
+                      </div>
+                      <span style={{ fontSize: "0.72rem", color: "var(--text-secondary)", fontWeight: "500", flexShrink: 0 }}>
+                        {new Date(act.created_at).toLocaleDateString(undefined, { month: "short", day: "numeric" })}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)", margin: 0 }}>
+                  No recent activities recorded. Try uploading your resume to start!
+                </p>
+              )}
             </div>
 
             {/* Features section title */}
@@ -352,6 +423,17 @@ export default function DashboardPage() {
 
           </>
 
+        );
+
+      case "Profile":
+        return (
+          <>
+            <SectionHeader
+              title="👤 Profile & Settings"
+              description="Manage your account profile details, change passwords, and inspect historical activity logs."
+            />
+            <ProfilePanel />
+          </>
         );
 
       default:

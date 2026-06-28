@@ -6,18 +6,20 @@ import {
 
 const AuthContext = createContext();
 
+const tokenKey = import.meta.env.VITE_JWT_TOKEN_KEY || "ps_auth_token";
+
 export const AuthProvider = ({
   children,
 }) => {
 
   const [token, setToken] = useState(
-    localStorage.getItem("token")
+    localStorage.getItem(tokenKey)
   );
 
   const login = (newToken) => {
 
     localStorage.setItem(
-      "token",
+      tokenKey,
       newToken
     );
 
@@ -27,7 +29,7 @@ export const AuthProvider = ({
   const logout = () => {
 
     localStorage.removeItem(
-      "token"
+      tokenKey
     );
 
     setToken(null);

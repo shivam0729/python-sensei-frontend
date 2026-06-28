@@ -8,6 +8,10 @@ import {
   AuthProvider,
 } from "./context/AuthContext";
 
+import {
+  ToastProvider,
+} from "./context/ToastContext";
+
 import "./styles/theme.css";
 
 ReactDOM.createRoot(
@@ -18,7 +22,11 @@ ReactDOM.createRoot(
 
     <AuthProvider>
 
-      <App />
+      <ToastProvider>
+
+        <App />
+
+      </ToastProvider>
 
     </AuthProvider>
 

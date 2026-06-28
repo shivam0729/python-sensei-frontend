@@ -7,7 +7,10 @@ export default function TopNavigation({
 }) {
   const [darkMode, setDarkMode] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  
   const email = localStorage.getItem("user_email") || "";
+  const fullName = localStorage.getItem("user_name") || "";
+  const avatarUrl = localStorage.getItem("user_avatar") || "";
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -30,6 +33,13 @@ export default function TopNavigation({
   };
 
   const getInitials = () => {
+    if (fullName) {
+      const parts = fullName.trim().split(" ");
+      if (parts.length > 1) {
+        return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+      }
+      return fullName.substring(0, 2).toUpperCase();
+    }
     if (!email) return "U";
     return email.substring(0, 2).toUpperCase();
   };
@@ -54,7 +64,6 @@ export default function TopNavigation({
           <polyline points="14 2 14 8 20 8"></polyline>
           <line x1="16" y1="13" x2="8" y2="13"></line>
           <line x1="16" y1="17" x2="8" y2="17"></line>
-          <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
       ),
     },
@@ -87,6 +96,15 @@ export default function TopNavigation({
         </svg>
       ),
     },
+    {
+      label: "Profile",
+      icon: (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      ),
+    }
   ];
 
   return (
@@ -99,7 +117,7 @@ export default function TopNavigation({
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          padding: "16px 32px",
+          padding: "16px 24px",
           background: "var(--bg-secondary)",
           borderBottom: "1px solid var(--border-color)",
           boxShadow: "var(--shadow-sm)",
@@ -108,58 +126,84 @@ export default function TopNavigation({
           transition: "background-color 0.4s ease, border-color 0.4s ease",
         }}
       >
-        {/* Left: Brand/Logo */}
-        <div 
-          style={{ 
-            display: "flex", 
-            alignItems: "center", 
-            gap: "12px",
-            cursor: "pointer"
-          }}
-          onClick={() => setActiveSection("Dashboard")}
-        >
-          <div 
-            style={{ 
-              width: "32px", 
-              height: "32px", 
-              borderRadius: "8px", 
-              background: "linear-gradient(135deg, var(--primary), var(--accent))",
-              boxShadow: "var(--shadow-primary)",
+        {/* Brand/Logo and Mobile Hamburger */}
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          {/* Hamburger button (Mobile only) */}
+          <button
+            onClick={() => setIsDrawerOpen(true)}
+            className="hamburger-btn"
+            style={{
+              background: "transparent",
+              border: "none",
+              boxShadow: "none",
+              color: "var(--text-primary)",
+              padding: "6px",
+              cursor: "pointer",
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
-              color: "white",
-              fontWeight: "800",
-              fontSize: "16px",
-              fontFamily: "var(--font-display)"
+              marginRight: "4px"
             }}
+            aria-label="Open navigation drawer"
           >
-            S
-          </div>
-          <div className="header-logo-text" style={{ display: "flex", flexDirection: "column" }}>
-            <span
-              style={{
-                fontSize: "18px",
-                fontFamily: "var(--font-display)",
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="4" y1="12" x2="20" y2="12"></line>
+              <line x1="4" y1="6" x2="20" y2="6"></line>
+              <line x1="4" y1="18" x2="20" y2="18"></line>
+            </svg>
+          </button>
+
+          <div 
+            style={{ 
+              display: "flex", 
+              alignItems: "center", 
+              gap: "12px",
+              cursor: "pointer"
+            }}
+            onClick={() => setActiveSection("Dashboard")}
+          >
+            <div 
+              style={{ 
+                width: "32px", 
+                height: "32px", 
+                borderRadius: "8px", 
+                background: "linear-gradient(135deg, var(--primary), var(--accent))",
+                boxShadow: "var(--shadow-primary)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "white",
                 fontWeight: "800",
-                letterSpacing: "-0.02em",
-                color: "var(--text-primary)",
-                lineHeight: "1.2"
+                fontSize: "16px",
+                fontFamily: "var(--font-display)"
               }}
             >
-              Python Sensei
-            </span>
-            <span
-              style={{
-                fontSize: "10px",
-                color: "var(--text-secondary)",
-                fontWeight: "600",
-                textTransform: "uppercase",
-                letterSpacing: "0.05em",
-              }}
-            >
-              AI Career Suite
-            </span>
+              S
+            </div>
+            <div className="header-logo-text" style={{ display: "flex", flexDirection: "column" }}>
+              <span
+                style={{
+                  fontSize: "18px",
+                  fontFamily: "var(--font-display)",
+                  fontWeight: "800",
+                  letterSpacing: "-0.02em",
+                  color: "var(--text-primary)",
+                  lineHeight: "1.2"
+                }}
+              >
+                Python Sensei
+              </span>
+              <span
+                style={{
+                  fontSize: "10px",
+                  color: "var(--text-secondary)",
+                  fontWeight: "600",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
+                }}
+              >
+                AI Career Suite
+              </span>
+            </div>
           </div>
         </div>
 
@@ -197,7 +241,7 @@ export default function TopNavigation({
           })}
         </nav>
 
-        {/* Right: Actions (Theme, User Profile, Logout) - Responsive */}
+        {/* Right: Actions (Theme, User Profile, Logout) */}
         <div
           className="header-actions"
           style={{
@@ -232,8 +276,9 @@ export default function TopNavigation({
             )}
           </button>
 
-          {/* User Info */}
+          {/* User Info (Desktop only) */}
           <div
+            className="desktop-nav"
             style={{
               display: "flex",
               alignItems: "center",
@@ -243,7 +288,7 @@ export default function TopNavigation({
               background: "var(--primary-glow)",
               fontSize: "0.85rem",
               fontWeight: "600",
-              border: "1px solid rgba(99, 102, 241, 0.15)",
+              border: "1px solid rgba(124, 58, 237, 0.15)",
             }}
           >
             <div
@@ -258,18 +303,24 @@ export default function TopNavigation({
                 justifyContent: "center",
                 fontSize: "0.8rem",
                 fontWeight: "700",
+                overflow: "hidden"
               }}
             >
-              {getInitials()}
+              {avatarUrl ? (
+                <img src={`http://localhost:8000${avatarUrl}`} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              ) : (
+                getInitials()
+              )}
             </div>
             <span className="header-user-info-text" style={{ color: "var(--text-primary)", maxWidth: "120px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-              {email || "User"}
+              {fullName || email || "User"}
             </span>
           </div>
 
-          {/* Logout Button */}
+          {/* Logout Button (Desktop only) */}
           <button
             onClick={handleLogout}
+            className="desktop-nav"
             style={{
               background: "var(--danger-bg)",
               color: "var(--danger-text)",
@@ -299,27 +350,127 @@ export default function TopNavigation({
               <polyline points="16 17 21 12 16 7"></polyline>
               <line x1="21" y1="12" x2="9" y2="12"></line>
             </svg>
-            <span className="header-user-info-text">Logout</span>
+            <span>Logout</span>
           </button>
         </div>
       </header>
 
-      {/* Floating Bottom Navigation Bar (Mobile Viewports only) */}
-      <div className="bottom-nav-container">
-        {menuItems.map((item) => {
-          const isActive = activeSection === item.label;
-          return (
-            <button
-              key={item.label}
-              onClick={() => setActiveSection(item.label)}
-              className={`bottom-nav-item ${isActive ? "active" : ""}`}
-              aria-label={`Navigate to ${item.label}`}
-            >
-              {item.icon}
-              <span>{item.label}</span>
+      {/* Sliding Drawer Menu for Mobile */}
+      <div 
+        className={`drawer-backdrop ${isDrawerOpen ? "open" : ""}`}
+        onClick={() => setIsDrawerOpen(false)}
+      >
+        <div 
+          className="drawer-content"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="drawer-header">
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <div 
+                style={{ 
+                  width: "28px", 
+                  height: "28px", 
+                  borderRadius: "8px", 
+                  background: "linear-gradient(135deg, var(--primary), var(--accent))",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "white",
+                  fontWeight: "800",
+                  fontSize: "14px"
+                }}
+              >
+                S
+              </div>
+              <span style={{ fontWeight: "850", color: "var(--text-primary)", fontFamily: "var(--font-display)" }}>Python Sensei</span>
+            </div>
+            <button className="drawer-close-btn" onClick={() => setIsDrawerOpen(false)} aria-label="Close menu">
+              &times;
             </button>
-          );
-        })}
+          </div>
+
+          {/* User profile inside Drawer */}
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", borderBottom: "1px solid var(--border-color)", paddingBottom: "16px" }}>
+            <div
+              style={{
+                width: "42px",
+                height: "42px",
+                borderRadius: "50%",
+                background: "linear-gradient(135deg, var(--primary), var(--accent))",
+                color: "white",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "1.1rem",
+                fontWeight: "700",
+                overflow: "hidden"
+              }}
+            >
+              {avatarUrl ? (
+                <img src={`http://localhost:8000${avatarUrl}`} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              ) : (
+                getInitials()
+              )}
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", overflow: "hidden" }}>
+              <span style={{ fontWeight: "700", color: "var(--text-primary)", fontSize: "0.95rem" }}>{fullName || "User Account"}</span>
+              <span style={{ fontSize: "0.78rem", color: "var(--text-secondary)", overflow: "hidden", textOverflow: "ellipsis" }}>{email}</span>
+            </div>
+          </div>
+
+          {/* Drawer Nav links */}
+          <nav className="drawer-nav">
+            {menuItems.map((item) => {
+              const isActive = activeSection === item.label;
+              return (
+                <button
+                  key={item.label}
+                  onClick={() => {
+                    setActiveSection(item.label);
+                    setIsDrawerOpen(false);
+                  }}
+                  className={`drawer-nav-item ${isActive ? "active" : ""}`}
+                >
+                  {item.icon}
+                  <span>{item.label}</span>
+                </button>
+              );
+            })}
+          </nav>
+
+          {/* Drawer Footer / Logout */}
+          <div style={{ marginTop: "auto", borderTop: "1px solid var(--border-color)", paddingTop: "16px" }}>
+            <button
+              onClick={() => {
+                setIsDrawerOpen(false);
+                handleLogout();
+              }}
+              style={{
+                width: "100%",
+                background: "var(--danger-bg)",
+                color: "var(--danger-text)",
+                border: "1px solid rgba(239, 68, 68, 0.15)",
+                padding: "12px",
+                borderRadius: "12px",
+                fontSize: "0.95rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px",
+                fontWeight: "600",
+                cursor: "pointer",
+                boxShadow: "none"
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+              <span>Logout</span>
+            </button>
+          </div>
+        </div>
       </div>
     </>
   );
